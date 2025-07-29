@@ -8,35 +8,34 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-
+ //TC->O(N)
+ //SC->O(1)
 class Solution {
 public:
     ListNode* reverseKGroup(ListNode* head, int k) {
-        ListNode* ptr = head;
-        int count = 0;
+       if(head==NULL || k==1) return head;
+       ListNode *dummy= new ListNode(0);
+       dummy->next=head;
 
-        // Step 1: Check if we have at least k nodes to reverse
-        while (ptr != nullptr && count < k) {
-            ptr = ptr->next;
-            count++;
-        }
+       ListNode *curr=dummy ,*nex=dummy,*pre=dummy;
+       int count=0;
+       while(curr->next!=NULL){
+        curr=curr->next;
+        count++;
+       }
+        while(count>=k){
+            curr=pre->next;
+            nex=curr->next;
+            for(int i=1;i<k;i++){
+                curr->next=nex->next;
+                nex->next=pre->next;
+                pre->next=nex;
+                nex=curr->next;
 
-        if (count == k) {
-            // Step 2: Reverse k nodes
-            ListNode* prev = reverseKGroup(ptr, k); // reverse next group first
-            ListNode* curr = head;
-
-            for (int i = 0; i < k; ++i) {
-                ListNode* temp = curr->next;
-                curr->next = prev;
-                prev = curr;
-                curr = temp;
             }
-
-            return prev; // new head of this reversed group
+            pre=curr;
+            count-=k;
+        } 
+        return dummy->next;
         }
-
-        // Step 3: Less than k nodes, return head as-is
-        return head;
-    }
 };
