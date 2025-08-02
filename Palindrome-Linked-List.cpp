@@ -1,44 +1,49 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+ //TC->O(N/2+N/2+N/2)
+ //SC->O(1)
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        if (!head || !head->next) return true;
-
-        // Step 1: Find the middle
-        ListNode* slow = head;
-        ListNode* fast = head;
-        while (fast->next && fast->next->next) {
-            slow = slow->next;
-            fast = fast->next->next;
+        if(head==NULL||head->next==NULL)
+            return true;
+        
+        ListNode* slow=head;
+        ListNode* fast=head;
+        while(fast->next && fast->next->next){
+            slow=slow->next;
+            fast=fast->next->next;
         }
 
-        // Step 2: Reverse second half
-        ListNode* secondHalf = reverseList(slow->next);
+        slow->next=reverseList(slow->next);
+        slow=slow->next;
 
-        // Step 3: Compare halves
-        ListNode* firstHalf = head;
-        ListNode* secondCopy = secondHalf;
-        while (secondHalf) {
-            if (firstHalf->val != secondHalf->val)
+        while(slow!=NULL){
+            if(head->val!=slow->val)
                 return false;
-            firstHalf = firstHalf->next;
-            secondHalf = secondHalf->next;
+            head=head->next;
+            slow=slow->next;
         }
-
-        // Optional: Restore the original list
-        slow->next = reverseList(secondCopy);
-
         return true;
     }
 
-private:
-    ListNode* reverseList(ListNode* head) {
-        ListNode* prev = nullptr;
-        while (head) {
-            ListNode* nextNode = head->next;
-            head->next = prev;
-            prev = head;
-            head = nextNode;
+    ListNode* reverseList(ListNode* head){
+        ListNode* pre=NULL;
+        ListNode* next=NULL;
+        while(head!=NULL){
+            next=head->next;
+            head->next=pre;
+            pre=head;
+            head=next;
         }
-        return prev;
+        return pre;
     }
 };
