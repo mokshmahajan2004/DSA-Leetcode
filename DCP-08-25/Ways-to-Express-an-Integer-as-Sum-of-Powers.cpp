@@ -1,6 +1,7 @@
 class Solution {
 public:
-
+//TC->O(N^2)
+//SC->O(N^2+N)
     int t[301][301];
     int M=1e9+7;
     int solve(int n,int num,int x){
