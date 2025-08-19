@@ -1,24 +1,19 @@
 class Solution {
 public:
-//TC->O(N)
-//SC->O(1)
     long long zeroFilledSubarray(vector<int>& nums) {
         long long result=0;
         int n=nums.size();
-
-        int i=0;
-        while(i<n){
-           long long l=0;
+        int count=0;
+        for(int i=0;i<n;i++){
             if(nums[i]==0){
-                while(i<n && nums[i]==0){
-                    i++;
-                    l++;    
-                }
-            }else{
-                i++;
+                count++;
             }
-            result+=(l)*(l+1)/2;
+            else{
+                count=0;
+            }
+            result=result+count;
         }
         return result;
+
     }
 };
