@@ -1,5 +1,7 @@
 class Solution {
 public:
+//TC->O(n)
+//SC->O(1)
     long long zeroFilledSubarray(vector<int>& nums) {
         long long result=0;
         int n=nums.size();
